@@ -2,30 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Clonar repo') {
-            steps {
-                git 'https://github.com/tonebarba/mi_web.git'
-            }
-        }
-
         stage('Desplegar en Docker') {
             steps {
-                // Copiamos archivos al volumen que monta Apache
-                bat '''
-                robocopy "%WORKSPACE%" "C:/Users/Usuario/mi_web" /MIR /FFT /Z /W:5
-                if %ERRORLEVEL% LSS 8 exit 0
-                exit %ERRORLEVEL%
-                '''
+                echo "El código ya está en el workspace"
+                sh 'ls -la'
             }
         }
     }
 
     post {
         success {
-            echo "¡Despliegue completado!"
+            echo "¡Pipeline ejecutado correctamente!"
         }
         failure {
-            echo "Error en el despliegue"
+            echo "Error en el pipeline"
         }
     }
 }
